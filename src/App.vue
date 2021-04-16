@@ -4,6 +4,7 @@
     <h3>Mines left:</h3>
   </header>
   <GameBoard />
+  <footer><button id="options-button">Options</button></footer>
 </template>
 
 <script>
@@ -29,5 +30,14 @@ export default {
 }
 h1 {
   font-size: 4rem;
+}
+#options-button {
+  margin-top: 2em;
+  font-size: 1.5rem;
+  color: var(--minepink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
 }
 </style>

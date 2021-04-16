@@ -1,5 +1,6 @@
 <template>
   <button
+    tabindex="-1"
     @contextmenu="markTile"
     @click="clickTile"
     class="tile"
