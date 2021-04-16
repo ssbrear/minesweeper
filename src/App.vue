@@ -1,7 +1,7 @@
 <template>
   <header>
     <h1>Minesweeper</h1>
-    <h3>Mines left: </h3>
+    <h3>Mines left:</h3>
   </header>
   <GameBoard />
 </template>
@@ -17,11 +17,14 @@ export default {
 </script>
 
 <style>
+:root {
+  --minepink: #ea80fc;
+}
 #app {
   display: grid;
   justify-content: center;
   justify-items: center;
-  color: #ea80fc;
+  color: var(--minepink);
   text-align: center;
 }
 h1 {

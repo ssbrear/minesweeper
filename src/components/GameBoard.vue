@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main @contextmenu="removeContext">
     <Tile v-for="i in GAME_SIZE" :key="i" />
   </main>
 </template>
@@ -13,6 +13,11 @@ export default {
   },
   data() {
     return { GAME_SIZE: 100 };
+  },
+  methods: {
+    removeContext(e) {
+      e.preventDefault();
+    },
   },
 };
 </script>

@@ -10,6 +10,7 @@
 <script>
 export default {
   components: {},
+  props: {},
   data() {
     return { status: "hidden" };
   },
@@ -17,8 +18,10 @@ export default {
     clickTile() {
       this.status = "clicked";
     },
-    markTile() {
-      this.status = "marked";
+    markTile(e) {
+      e.preventDefault();
+      if (this.status === "marked") this.status = "hidden";
+      else if (this.status === "hidden") this.status = "marked";
     },
   },
 };
@@ -39,5 +42,9 @@ export default {
 .clicked {
   border: none;
   background: #343434;
+}
+.marked {
+  background: var(--minepink);
+  border-color: rgb(187, 77, 181);
 }
 </style>
