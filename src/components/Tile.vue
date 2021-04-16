@@ -11,7 +11,13 @@
 <script>
 export default {
   components: {},
-  props: { mine: Boolean, index: Number, parentMethod: Function, end: Boolean },
+  props: {
+    mine: Boolean,
+    index: Number,
+    parentMethod: Function,
+    end: Boolean,
+    clicked: Boolean,
+  },
   emits: {
     "get-index"(payload) {
       return typeof payload === "number";
@@ -22,16 +28,20 @@ export default {
   },
   methods: {
     clickTile() {
-      console.log(this.end);
-      if (this.end) return;
-      this.$emit("get-index", this.index);
-      if (!this.mine) this.status = "clicked";
-      else this.status = "boom";
+      if (this.end) return; // Doesn't let you keep playing after game is over
+      this.$emit("get-index", this.index); // Sends index to board to compare with game state
+      if (this.mine) this.status = "boom";
+      else this.status = "clicked";
     },
     markTile(e) {
       e.preventDefault();
       if (this.status === "marked") this.status = "hidden";
       else if (this.status === "hidden") this.status = "marked";
+    },
+  },
+  watch: {
+    clicked() {
+      this.clickTile();
     },
   },
 };

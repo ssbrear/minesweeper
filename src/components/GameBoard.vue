@@ -1,12 +1,13 @@
 <template>
   <main @contextmenu="removeContext">
     <Tile
-      @get-index="checkForGameEnd"
+      @get-index="checkGameState"
       v-for="i in GAME_SIZE"
       :index="i"
       :key="i"
       :mine="this.mineArray.includes(i)"
       :end="this.end"
+      :clicked="clicked[i]"
     />
   </main>
 </template>
@@ -18,18 +19,54 @@ export default {
     Tile,
   },
   data() {
-    return { GAME_SIZE: 100, NUM_MINES: 10, mineArray: [], end: false };
+    return {
+      GAME_SIZE: 100,
+      NUM_MINES: 10,
+      mineArray: [],
+      end: false,
+      clicked: [],
+    };
   },
   methods: {
     removeContext(e) {
       e.preventDefault();
     },
-    // NOTE: there is no 'event' parameter for custom emits
+    // NOTE: there is no default 'event' parameter for custom emits
     // checkForGameEnd(e, index) results in index being undefined
-    checkForGameEnd(index) {
+    checkGameState(index) {
+      this.clicked[index] = true;
       if (this.mineArray.includes(index)) {
         this.end = true;
+      } else {
+        let [x, y] = this.indexToRect(index);
+        let bombCount = 0;
+        for (let xd = -1; xd <= 1; xd++) {
+          for (let yd = -1; yd <= 1; yd++) {
+            if (xd === 0 && yd === 0) continue; // Don't need tile to check itself
+            const potentialBombIndex = this.rectToIndex([x + xd, y + yd]);
+            if (this.mineArray.includes(potentialBombIndex)) bombCount++;
+          }
+        }
+        console.log(bombCount);
+        if (bombCount === 0) {
+          for (let xd = -1; xd <= 1; xd++) {
+            for (let yd = -1; yd <= 1; yd++) {
+              if (xd === 0 && yd === 0) continue; // Don't need tile to check itself
+              this.clicked[this.rectToIndex([x + xd, y + yd])] = true;
+            }
+          }
+        }
       }
+    },
+    // Convert index to rectangular coordinates (0, 0) is top left, (9, 9) is bottom right
+    indexToRect(index) {
+      const x = index % 10 === 0 ? 9 : (index % 10) - 1;
+      const y = Math.floor(Math.abs(index - 1) / 10);
+      return [x, y];
+    },
+    rectToIndex([x, y]) {
+      const index = y * 10 + x + 1;
+      return index;
     },
   },
   // Not sure if "mounted()" is the best point in the lifecycle,
@@ -47,7 +84,6 @@ export default {
       )
         this.mineArray.push(position);
     }
-    console.log(this.mineArray);
   },
 };
 </script>
