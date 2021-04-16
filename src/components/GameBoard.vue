@@ -6,6 +6,7 @@
       :index="i"
       :key="i"
       :mine="this.mineArray.includes(i)"
+      :end="this.end"
     />
   </main>
 </template>
@@ -17,7 +18,7 @@ export default {
     Tile,
   },
   data() {
-    return { GAME_SIZE: 100, NUM_MINES: 10, mineArray: [] };
+    return { GAME_SIZE: 100, NUM_MINES: 10, mineArray: [], end: false };
   },
   methods: {
     removeContext(e) {
@@ -27,7 +28,7 @@ export default {
     // checkForGameEnd(e, index) results in index being undefined
     checkForGameEnd(index) {
       if (this.mineArray.includes(index)) {
-        console.log("END");
+        this.end = true;
       }
     },
   },

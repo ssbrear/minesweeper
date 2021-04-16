@@ -11,7 +11,7 @@
 <script>
 export default {
   components: {},
-  props: { mine: Boolean, index: Number, parentMethod: Function },
+  props: { mine: Boolean, index: Number, parentMethod: Function, end: Boolean },
   emits: {
     "get-index"(payload) {
       return typeof payload === "number";
@@ -22,6 +22,8 @@ export default {
   },
   methods: {
     clickTile() {
+      console.log(this.end);
+      if (this.end) return;
       this.$emit("get-index", this.index);
       if (!this.mine) this.status = "clicked";
       else this.status = "boom";
