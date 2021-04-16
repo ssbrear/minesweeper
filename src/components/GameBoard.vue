@@ -2,12 +2,14 @@
   <main @contextmenu="removeContext">
     <Tile
       @get-index="checkGameState"
+      @mark-change="checkNumMarks"
       v-for="i in GAME_SIZE"
       :index="i"
       :key="i"
       :mine="this.mineArray.includes(i)"
       :end="this.end"
       :clicked="clicked[i]"
+      :nearby="nearby[i]"
     />
   </main>
 </template>
@@ -18,13 +20,22 @@ export default {
   components: {
     Tile,
   },
+  props: {
+    GAME_SIZE: Number,
+    NUM_MINES: Number,
+  },
+  emits: {
+    "num-mark-change"(payload) {
+      return typeof payload === "number";
+    },
+  },
   data() {
     return {
-      GAME_SIZE: 100,
-      NUM_MINES: 10,
       mineArray: [],
       end: false,
       clicked: [],
+      nearby: [],
+      numMarked: 0,
     };
   },
   methods: {
@@ -47,7 +58,6 @@ export default {
             if (this.mineArray.includes(potentialBombIndex)) bombCount++;
           }
         }
-        console.log(bombCount);
         if (bombCount === 0) {
           for (let xd = -1; xd <= 1; xd++) {
             for (let yd = -1; yd <= 1; yd++) {
@@ -55,8 +65,12 @@ export default {
               this.clicked[this.rectToIndex([x + xd, y + yd])] = true;
             }
           }
-        }
+        } else this.nearby[index] = bombCount;
       }
+    },
+    checkNumMarks(newNumMarked) {
+      this.numMarked += newNumMarked;
+      this.$emit("num-mark-change", this.numMarked);
     },
     // Convert index to rectangular coordinates (0, 0) is top left, (9, 9) is bottom right
     indexToRect(index) {

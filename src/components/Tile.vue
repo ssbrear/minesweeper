@@ -5,7 +5,9 @@
     @click="clickTile"
     class="tile"
     :class="status"
-  ></button>
+  >
+    {{ nearby }}
+  </button>
 </template>
 
 <script>
@@ -17,11 +19,13 @@ export default {
     parentMethod: Function,
     end: Boolean,
     clicked: Boolean,
+    nearby: Number,
   },
   emits: {
     "get-index"(payload) {
       return typeof payload === "number";
     },
+    "mark-change": null,
   },
   data() {
     return { status: "hidden" };
@@ -31,12 +35,19 @@ export default {
       if (this.end) return; // Doesn't let you keep playing after game is over
       this.$emit("get-index", this.index); // Sends index to board to compare with game state
       if (this.mine) this.status = "boom";
-      else this.status = "clicked";
+      else {
+        this.status = "clicked";
+      }
     },
     markTile(e) {
       e.preventDefault();
-      if (this.status === "marked") this.status = "hidden";
-      else if (this.status === "hidden") this.status = "marked";
+      if (this.status === "marked") {
+        this.status = "hidden";
+        this.$emit("mark-change", -1);
+      } else if (this.status === "hidden") {
+        this.status = "marked";
+        this.$emit("mark-change", 1);
+      }
     },
   },
   watch: {
@@ -55,6 +66,8 @@ export default {
   margin: 0.2em;
   cursor: pointer;
   outline: none;
+  font-size: 1.25rem;
+  color: var(--minepink);
 }
 .hidden:hover {
   background: #494949;

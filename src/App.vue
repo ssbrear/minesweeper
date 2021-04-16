@@ -1,9 +1,13 @@
 <template>
   <header>
     <h1>Minesweeper</h1>
-    <h2>Mines left:</h2>
+    <h2>Mines left: {{ NUM_MINES - numMarked }}</h2>
   </header>
-  <GameBoard />
+  <GameBoard
+    @num-mark-change="changeNumMarks"
+    :GAME_SIZE="GAME_SIZE"
+    :NUM_MINES="NUM_MINES"
+  />
   <footer><button id="options-button">Options</button></footer>
 </template>
 
@@ -13,6 +17,18 @@ import GameBoard from "./components/GameBoard";
 export default {
   components: {
     GameBoard,
+  },
+  data() {
+    return {
+      GAME_SIZE: 100,
+      NUM_MINES: 10,
+      numMarked: 0,
+    };
+  },
+  methods: {
+    changeNumMarks(newNumMarked) {
+      this.numMarked = newNumMarked;
+    },
   },
 };
 </script>
