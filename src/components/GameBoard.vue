@@ -23,6 +23,8 @@ export default {
     removeContext(e) {
       e.preventDefault();
     },
+    // NOTE: there is no 'event' parameter for custom emits
+    // checkForGameEnd(e, index) results in index being undefined
     checkForGameEnd(index) {
       if (this.mineArray.includes(index)) {
         console.log("END");
