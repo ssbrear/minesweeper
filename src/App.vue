@@ -1,6 +1,7 @@
 <template>
   <header>
     <h1>Minesweeper</h1>
+    <h3>Mines left: </h3>
   </header>
   <GameBoard />
 </template>
@@ -20,10 +21,10 @@ export default {
   display: grid;
   justify-content: center;
   justify-items: center;
-}
-h1 {
   color: #ea80fc;
   text-align: center;
+}
+h1 {
   font-size: 4rem;
 }
 </style>

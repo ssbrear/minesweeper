@@ -6,3 +6,8 @@ body {
     font-family: Zen Dots;
     box-sizing: border-box;
 }
+
+::selection {
+    color: none;
+    background: none;
+}

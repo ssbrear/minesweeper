@@ -1,11 +1,26 @@
 <template>
-  <button class="tile"></button>
+  <button
+    @contextmenu="markTile"
+    @click="clickTile"
+    class="tile"
+    :class="status"
+  ></button>
 </template>
 
 <script>
 export default {
   components: {},
-  data() {},
+  data() {
+    return { status: "hidden" };
+  },
+  methods: {
+    clickTile() {
+      this.status = "clicked";
+    },
+    markTile() {
+      this.status = "marked";
+    },
+  },
 };
 </script>
 
@@ -18,7 +33,11 @@ export default {
   cursor: pointer;
   outline: none;
 }
-.tile:hover {
+.hidden:hover {
   background: #494949;
+}
+.clicked {
+  border: none;
+  background: #343434;
 }
 </style>
