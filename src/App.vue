@@ -1,26 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <header>
+    <h1>Minesweeper</h1>
+  </header>
+  <GameBoard />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import GameBoard from "./components/GameBoard";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    GameBoard,
+  },
+};
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+}
+h1 {
+  color: #ea80fc;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-size: 4rem;
 }
 </style>
