@@ -1,7 +1,7 @@
 <template>
   <header>
     <h1>Minesweeper</h1>
-    <h3>Mines left:</h3>
+    <h2>Mines left:</h2>
   </header>
   <GameBoard />
   <footer><button id="options-button">Options</button></footer>

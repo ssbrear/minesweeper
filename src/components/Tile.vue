@@ -11,13 +11,20 @@
 <script>
 export default {
   components: {},
-  props: {},
+  props: { mine: Boolean, index: Number, parentMethod: Function },
+  emits: {
+    "get-index"(payload) {
+      return typeof payload === "number";
+    },
+  },
   data() {
     return { status: "hidden" };
   },
   methods: {
     clickTile() {
-      this.status = "clicked";
+      this.$emit("get-index", this.index);
+      if (!this.mine) this.status = "clicked";
+      else this.status = "boom";
     },
     markTile(e) {
       e.preventDefault();
@@ -47,5 +54,9 @@ export default {
 .marked {
   background: var(--minepink);
   border-color: rgb(187, 77, 181);
+}
+.boom {
+  background: url("https://tinyurl.com/5aak3rjr") no-repeat;
+  background-size: 100%;
 }
 </style>

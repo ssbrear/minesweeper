@@ -8,6 +8,5 @@ body {
 }
 
 ::selection {
-    color: none;
     background: none;
 }
