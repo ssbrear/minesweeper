@@ -1,0 +1,13 @@
+{
+  "short_name": "Minesweeper",
+  "name": "Vue.js Minesweeper",
+  "icons": [{
+    "src": "./images/bomb.png",
+    "type": "image/png",
+    "sizes": "512x512"
+  }],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#121212"
+}
