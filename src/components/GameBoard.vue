@@ -50,10 +50,11 @@ export default {
         this.end = true;
       } else {
         let [x, y] = this.indexToRect(index);
+        console.log(x, y);
         let bombCount = 0;
         for (let xd = -1; xd <= 1; xd++) {
           for (let yd = -1; yd <= 1; yd++) {
-            if (xd === 0 && yd === 0) continue; // Don't need tile to check itself
+            if (this.checkInvalidTile(x, y, xd, yd)) continue;
             const potentialBombIndex = this.rectToIndex([x + xd, y + yd]);
             if (this.mineArray.includes(potentialBombIndex)) bombCount++;
           }
@@ -61,12 +62,18 @@ export default {
         if (bombCount === 0) {
           for (let xd = -1; xd <= 1; xd++) {
             for (let yd = -1; yd <= 1; yd++) {
-              if (xd === 0 && yd === 0) continue; // Don't need tile to check itself
+              if (this.checkInvalidTile(x, y, xd, yd)) continue;
               this.clicked[this.rectToIndex([x + xd, y + yd])] = true;
             }
           }
         } else this.nearby[index] = bombCount;
       }
+    },
+    checkInvalidTile(x, y, xd, yd) {
+      if (xd === 0 && yd === 0) return true; // Don't need to check itself
+      if ((x === 9 && xd === 1) || (x === 0 && xd === -1)) return true; // Don't check tiles in columns across the board
+      if ((y === 9 && yd === 1) || (y === 0 && yd === -1)) return true; // Don't check tiles out of bounds
+      return false;
     },
     checkNumMarks(newNumMarked) {
       this.numMarked += newNumMarked;
