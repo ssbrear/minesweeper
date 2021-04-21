@@ -115,7 +115,6 @@ export default {
         )
           newMineArray.push(position);
       }
-      console.log(newMineArray);
       return newMineArray;
     },
   },
