@@ -21,6 +21,7 @@ export default {
     end: Boolean,
     clicked: Boolean,
     nearby: Number,
+    reset: Number,
   },
   emits: {
     "get-index"(payload) {
@@ -55,6 +56,12 @@ export default {
   watch: {
     clicked() {
       this.clickTile();
+    },
+    end() {
+      if (this.mine === true) {
+        this.status = "boom";
+        console.log("boom");
+      }
     },
   },
 };

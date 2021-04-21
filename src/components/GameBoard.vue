@@ -14,6 +14,7 @@
       :end="this.end"
       :clicked="clicked[i]"
       :nearby="nearby[i]"
+      :reset="reset"
     />
   </main>
 </template>
@@ -29,6 +30,7 @@ export default {
     GAME_SIZE: Array,
     NUM_MINES: Number,
     show: Boolean,
+    reset: Number,
   },
   emits: {
     "num-mark-change"(payload) {
@@ -54,15 +56,14 @@ export default {
       this.clicked[index] = true;
       if (this.mineArray.includes(index)) {
         this.end = true;
+        return;
       } else {
         let [x, y] = this.indexToRect(index);
         let bombCount = 0;
-        console.log("i clicked on", index);
         for (let xd = -1; xd <= 1; xd++) {
           for (let yd = -1; yd <= 1; yd++) {
             if (this.checkInvalidTile(x, y, xd, yd)) continue;
             const potentialBombIndex = this.rectToIndex([x + xd, y + yd]);
-            console.log("is ", potentialBombIndex, " an index with a bomb?");
             if (this.mineArray.includes(potentialBombIndex)) bombCount++;
           }
         }
