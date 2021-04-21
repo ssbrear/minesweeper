@@ -1,9 +1,13 @@
 <template>
-  <main @contextmenu="removeContext">
+  <main
+    :style="{ gridTemplateColumns: `repeat(${GAME_SIZE[0]}, 1fr)` }"
+    @contextmenu="removeContext"
+    :class="{ grid: show }"
+  >
     <Tile
       @get-index="checkGameState"
       @mark-change="checkNumMarks"
-      v-for="i in GAME_SIZE"
+      v-for="i in GAME_SIZE[0] * GAME_SIZE[1]"
       :index="i"
       :key="i"
       :mine="this.mineArray.includes(i)"
@@ -17,12 +21,14 @@
 <script>
 import Tile from "./Tile";
 export default {
+  name: "GameBoard",
   components: {
     Tile,
   },
   props: {
-    GAME_SIZE: Number,
+    GAME_SIZE: Array,
     NUM_MINES: Number,
+    show: Boolean,
   },
   emits: {
     "num-mark-change"(payload) {
@@ -50,7 +56,6 @@ export default {
         this.end = true;
       } else {
         let [x, y] = this.indexToRect(index);
-        console.log(x, y);
         let bombCount = 0;
         for (let xd = -1; xd <= 1; xd++) {
           for (let yd = -1; yd <= 1; yd++) {
@@ -97,7 +102,9 @@ export default {
   // so out of those, picking "mounted()" was arbitrary.
   mounted() {
     while (this.mineArray.length < this.NUM_MINES) {
-      const position = Math.floor(Math.random() * this.GAME_SIZE);
+      const position = Math.floor(
+        Math.random() * this.GAME_SIZE[0] * this.GAME_SIZE[1]
+      );
       if (
         !this.mineArray.some(
           (existingPosition) => existingPosition === position
@@ -112,8 +119,7 @@ export default {
 <style>
 main {
   background: #252525;
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  padding: 0.2em;
+  padding: 4px;
+  display: none;
 }
 </style>

@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  components: {},
+  name: "Tile",
   props: {
     mine: Boolean,
     index: Number,
@@ -62,9 +62,8 @@ export default {
 <style>
 .tile {
   background: #373737;
-  width: 50px;
-  height: 50px;
-  margin: 0.2em;
+  width: 35px;
+  height: 35px;
   cursor: pointer;
   outline: none;
   font-size: 1.25rem;
@@ -76,13 +75,14 @@ export default {
 .clicked {
   border: none;
   background: #343434;
+  border: 1px solid #454545;
 }
 .marked {
   background: var(--minepink);
   border-color: rgb(187, 77, 181);
 }
 .boom {
-  background: url("https://tinyurl.com/5aak3rjr") no-repeat;
+  background: url("../../public/images/bomb.png") no-repeat;
   background-size: 100%;
 }
 </style>

@@ -4,30 +4,64 @@
     <h2>Mines left: {{ NUM_MINES - numMarked }}</h2>
   </header>
   <GameBoard
+    :show="!optionsShow"
     @num-mark-change="changeNumMarks"
-    :GAME_SIZE="GAME_SIZE"
+    :GAME_SIZE="[GAME_WIDTH, GAME_HEIGHT]"
     :NUM_MINES="NUM_MINES"
   />
-  <footer><button id="options-button">Options</button></footer>
+  <Options @difficulty-change="respondToDifficultyChange" :show="optionsShow" />
+  <footer>
+    <button @click="openOptions" id="options-button">Options</button>
+  </footer>
 </template>
 
 <script>
 import GameBoard from "./components/GameBoard";
+import Options from "./components/Options";
 
 export default {
+  name: "App",
   components: {
     GameBoard,
+    Options,
   },
   data() {
     return {
-      GAME_SIZE: 100,
-      NUM_MINES: 10,
+      GAME_WIDTH: 16,
+      GAME_HEIGHT: 16,
+      NUM_MINES: 40,
       numMarked: 0,
+      optionsShow: false,
     };
   },
   methods: {
     changeNumMarks(newNumMarked) {
       this.numMarked = newNumMarked;
+    },
+    openOptions() {
+      const optionsButton = document.querySelector("#options-button");
+      if (this.optionsShow === true) {
+        this.optionsShow = false;
+        optionsButton.textContent = "Options";
+      } else if (this.optionsShow === false) {
+        this.optionsShow = true;
+        optionsButton.textContent = "Return";
+      }
+    },
+    respondToDifficultyChange(newDifficulty) {
+      if (newDifficulty === "0") {
+        this.GAME_WIDTH = 10;
+        this.GAME_HEIGHT = 10;
+        this.NUM_MINES = 10;
+      } else if (newDifficulty === "1") {
+        this.GAME_WIDTH = 16;
+        this.GAME_HEIGHT = 16;
+        this.NUM_MINES = 40;
+      } else if (newDifficulty === "2") {
+        this.GAME_WIDTH = 30;
+        this.GAME_HEIGHT = 16;
+        this.NUM_MINES = 99;
+      }
     },
   },
 };
