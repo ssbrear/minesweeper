@@ -33,7 +33,8 @@ export default {
   },
   methods: {
     clickTile() {
-      if (this.end) return; // Doesn't let you keep playing after game is over
+      if (this.end === true) return; // Doesn't let you keep playing after game is over
+      if (this.status === "clicked") return; // Doesn't let you click if you already clicked it -- Limits recursion
       this.$emit("get-index", this.index); // Sends index to board to compare with game state
       if (this.mine) this.status = "boom";
       else {
